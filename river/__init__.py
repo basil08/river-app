@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template
 
 def create_app(test_config=None):
   """
@@ -30,8 +30,12 @@ def create_app(test_config=None):
   from . import auth
   app.register_blueprint(auth.bp)
 
+  from . import user
+  app.register_blueprint(user.bp)
 
+  
   @app.route('/')
-  def hello(): return '<h1>River</h1><h3><em>Where ideas meet</em></h3>'
+  def index():
+    return render_template('index.html')
 
   return app

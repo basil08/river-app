@@ -91,7 +91,7 @@ def login():
 # As user id is stored in the session, it will be available on subsequent requests
 # This functions runs before processing any request and loads the current user information 
 # from database into the global g object
-@bp.before_app_request()
+@bp.before_app_request
 def load_logged_in_user():
   user_id = session.get('user_id')
 

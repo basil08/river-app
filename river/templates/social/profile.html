@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Profile{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<!-- Tables. Very modern. Great. -->
+  <table>
+    <tr>
+      <td>Name</td>
+      <td>{{ user['name'] }}</td>
+    </tr>
+    <tr>
+      <td>Username</td>
+      <td>{{ user['username'] }}</td>
+    </tr>
+    <tr>
+      <td>Bio</td>
+      <td>
+        {% if user['bio'] %}
+        {{ user['bio'] }}
+        {% else %}
+        No bio available
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <td>Relationship Status</td>
+      <td>
+        {% if user['relationship_status'] %}
+        {{ user['relationship_status'] }}
+        {% else %}
+        Data not available
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <td>Location</td>
+      <td>
+        {% if user['location'] %}
+        {{ user['location'] }}
+        {% else %}
+        No location data available
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <td>Joined</td>
+      <td>{{ user['joined_date'].strftime('%m, %Y')}}</td>
+    </tr>
+  </table>
+
+  {% if g.user and g.user['user_id'] == session['user_id'] %}
+  <a href="{{ url_for('user.edit') }}">Edit</a>
+  {% endif %}
+{% endblock %}

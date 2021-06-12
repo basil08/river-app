@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>{% block title %}{% endblock %} - River</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-main-wrapper">
+      <div class="nav-left-wrapper">
+        <h1>River</h1>
+        <p>where ideas meet</p>
+      </div>
+      <div class="nav-right-wrapper">
+        <ul>
+          {% if g.user %}
+          <li>
+            <span>{{ g.user['name'] }}</span>
+            <span>{{ g.user['username'] }}</span>
+          </li>
+          <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+          {% else %}
+          <li><a href="{{ url_for('auth.signup') }}">Sign Up</a></li>
+          <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <section class="content">
+    <header>
+      {% block header %}{% endblock %}
+    </header>
+    {% for message in get_flashed_messages() %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </section>
+</body>
+</html>
