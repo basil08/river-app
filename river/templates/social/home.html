@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Home{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<aside>
+  <a href="{{ url_for('post.new') }}">New Post</a>
+</aside>
+  {% if posts %}
+  <div class="post-list">
+    {% for post in posts %}
+    <article>
+      <div class="post-card">
+        <header>
+          <!-- TODO: Add a link to the title that directs to the /p/<post_id> page -->
+          <h2><a href="{{ url_for('post.index', post_id=post['post_id']) }}">{{ post['title'] }}</a></h2>
+          <div class="about">{{ post['username'] }} on {{  post['created'].strftime('%Y-%m-%d')}}</div>
+          {% if g.user['user_id'] == post['author_id'] %}
+          <div>You are the author of this post.</div>
+          <!-- TODO: -->
+          <a class="action" href="{{ url_for('post.edit', post_id=post['post_id']) }}">Edit</a>
+          {% endif %}
+        </header>
+        <div class="post-body">
+          <p>{{ post['body'] }}</p>
+        </div>
+        <!-- TODO: Add a comment count  -->
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div>
+    <p>
+      No posts to show :(
+    </p>
+    <p>
+      Brighten this place by creating <a href="{{ url_for('user.new', username=g.user['username']) }}">your own posts!</a>
+    </p>
+  </div>
+  
+  {% endif %}
+{% endblock %}

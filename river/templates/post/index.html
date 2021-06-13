@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Post {{ post['title'] }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+{% if post %}
+<article>
+  <div class="post-header">
+    <header>
+      <!-- TODO: Add a link to the title that directs to the /p/<post_id> page -->
+      <h2><a href="{{ url_for('post.index', post_id=post['post_id']) }}">{{ post['title'] }}</a></h2>
+      <div class="about">{{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d')}}</div>
+      {% if g.user['user_id'] == post['author_id'] %}
+      <!-- TODO: -->
+      <a class="action" href="{{ url_for('post.edit', post_id=post['post_id']) }}">Edit</a>
+      {% endif %}
+    </header>
+  </div>
+  <div class="post-body">
+    <p>{{ post['body'] }}</p>
+  </div>
+
+  <div class="comment-box-wrapper">
+    <form method="submit">
+      <label for="comment-box">
+        Comment
+      </label>
+      <input name="comment-box" id="comment-box">
+      <input type="submit" value="Add Comment" onclick="return confirm('Are you sure?')">
+    </form>
+  </div>
+
+  {% if comments %}
+  <div class="comment-list">
+    {% for comment in comments %}
+    <div class="comment-card">
+      <p>{{ comment['body'] }}</p>
+      <p>on {{ comment['created'].strftime('%Y-%m-%d') }}</p>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div>
+    <p>No comments on this post yet.</p>
+  </div>
+  {% endif %}
+</article>
+{% else %}
+<div>
+  <p>
+    Looks like your post cannot be found :(
+  </p>
+</div>
+{% endif %}
+{% endblock %}

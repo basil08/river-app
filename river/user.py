@@ -1,20 +1,40 @@
 import functools 
 
 from flask import (
-  Blueprint, flash, g, redirect, render_template, request, session, url_for
+  Blueprint, flash, g, redirect, render_template, request, session, url_for, abort
 )
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from river.db import get_db
+from river.auth import login_required
 
 bp = Blueprint('user', __name__, url_prefix='/u')
 
-@bp.route('/<string:username')
+@bp.route('/home')
+@login_required
+def home():
+  # show a list of random posts for now...
+  # TODO: allow non-logged in users to access /home and show list of random posts
+  # But if logged in users, show posts from relevant sources, followers etc
+  error = None
+  db = get_db()
+
+# SELECT p.id, title, body, created, author_id, username'
+#         ' FROM post p JOIN user u ON p.author_id = u.id'
+#         ' ORDER BY created DESC'
+    # SELECT p.post_id, title, body, created, author_id, username FROM post p JOIN user_detail u 
+      # ON p.author_id = u.user_id LIMIT 15 ORDER BY created DESC'''
+  posts = db.execute('SELECT * FROM post ORDER BY created DESC').fetchall()
+
+  return render_template("social/home.html", posts=posts)
+
+
+@bp.route('/<string:username>')
 def profile(username):
   error = None
   db = get_db()
-  user = db.execute('
+  user = db.execute(' \
   SELECT * FROM user_detail WHERE username = ?', (username,)
   ).fetchone()
 
@@ -27,18 +47,31 @@ def profile(username):
   return render_template('social/profile.html', user = user, error = error)  
 
 
-
-@bp.route('/<string:username/edit', methods = ['GET', 'POST'])
+@bp.route('/<string:username>/edit', methods = ['GET', 'POST'])
 def edit(username):
-  if request.method == 'POST':
-    error = None
-    db = get_db()
+  post = get_post(id)
+  error = None
+  db = get_db()
+  pass
+  # if request.method == 'POST':
+  #   title = request.form['title']
+  #   body = request.form['body']
+
+  #   if not title: error = 'Title is required'
+  #   elif not body: error = 'Body cannot be empty'
+  #   elif len(body) < 3: error = 'Body must have atleast 3 characters'
+
+  #   if error is not None:
+  #     flash(error)
+  #   else:
+  #     db.execute('UPDATE user_detail SET title = ? , body = ? WHERE post_id = ? ', (title, body, id))
+  #     db.commit()
+
     # grab data
     # verify data
     # update database
     # redirect to profile page
-    flash(error)
-  return render_template('social/edit_profile.html')
+  return render_template('social/edit_profile.html', post=post)
 
 
   

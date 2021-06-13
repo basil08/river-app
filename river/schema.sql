@@ -26,9 +26,9 @@ CREATE TABLE post (
   title TEXT,
   body TEXT NOT NULL,
   created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  likes INTEGER,
-  is_reported BOOLEAN,
-  is_blocked BOOLEAN,
+  likes INTEGER DEFAULT 0,
+  is_reported BOOLEAN DEFAULT FALSE,
+  is_blocked BOOLEAN DEFAULT FALSE,
   FOREIGN KEY (author_id) REFERENCES user_detail (user_id)
 );
 
@@ -39,7 +39,7 @@ CREATE TABLE comment (
   title TEXT,
   body TEXT NOT NULL,
   created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  likes INTEGER,
+  likes INTEGER DEFAULT 0,
   FOREIGN KEY (author_id) REFERENCES user_detail (user_id),
   FOREIGN KEY (post_id) REFERENCES post (post_id)
 );

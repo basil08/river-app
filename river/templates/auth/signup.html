@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Sign Up{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <div>
+      <label for="name">Name</label>
+      <input name="name" id="name" required>
+    </div>
+    <div>
+      <label for="username">Username</label>
+      <input name="username" id="username" required>
+    </div>
+    <div>
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required>
+    </div>
+    <div>
+      <label for="email_id">Email ID</label>
+      <input name="email_id" id="email_id" required>
+    </div>
+    <!-- Optional -->
+    <span>Optional</span>
+    <div>
+      <label for="bio">Bio</label>
+      <input type="text" name="bio" id="bio">
+    </div>
+    <div>
+      <!-- TODO: Make it a dropdown -->
+      <label for="relationship_status">Relationship Status</label>
+      <input name="relationship_status" id="relationship_status">
+    </div>
+    <div>
+      <label for="location">Location</label>
+      <input name="location" id="location">
+    </div>
+    <div>
+      <input type="submit" value="Sign Up">
+    </div>
+  </form>
+{% endblock %}
