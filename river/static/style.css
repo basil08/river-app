@@ -1,0 +1,55 @@
+/* Global reset */
+
+/* Global styles, fonts, color definition etc */
+
+/* Total nonsense styling */
+/* Just to keep myself motivated styled site header */
+/* Use bootstrap or bulma please */
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  padding: 2px;
+  margin: 2px;
+  border-radius: 5px;
+}
+
+
+a:visited {
+  color: darkred
+}
+
+a:hover, a:active {
+  color: gold;
+}  
+
+
+/* Site header */
+
+.nav-main-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.nav-left-wrapper > h1 {
+  margin: 0px;
+  margin-top: 10px;
+}
+
+.nav-left-wrapper > span.tagline {
+  font-size: large;
+}
+
+.nav-right-wrapper > ul {
+  list-style-type: none;
+  text-align: right;
+}
+
+.nav-right-wrapper > ul > li > span.name {
+  font-size: larger;
+}
+
+/* End site header */

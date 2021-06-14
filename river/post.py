@@ -41,11 +41,11 @@ def new():
       # insert into db 
       db.execute('INSERT INTO post (author_id, title, body) VALUES (?,?,?);', (g.user['user_id'], title, body))
       # get the id of the post just inserted, used to redirect to the post's index page 
-      post_id = db.execute('SELECT post_id FROM post WHERE author_id = ? AND title = ?', (g.user['user_id'], title)).fetchone()
+      post = db.execute('SELECT * FROM post WHERE author_id = ? AND title = ?', (g.user['user_id'], title)).fetchone()
       db.commit()
 
       # and redirect
-      return redirect(url_for('post.index', post_id=post_id))
+      return redirect(url_for('post.index', post_id=post['post_id']))
     
     flash(error)
   return render_template('post/new.html')

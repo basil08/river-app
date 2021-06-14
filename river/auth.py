@@ -40,16 +40,13 @@ def signup():
 
     # insert data in db
     if error is None:
-      db.execute(
-        'INSERT INTO user (name, username, password) VALUES (?, ?, ?);',
-        (name, username, generate_password_hash(password))
-      )
 
       db.execute(
         'INSERT INTO user_detail (name, username, password, email_id, bio, relationship_status, location) \
           VALUES (?,?,?,?,?,?,?)',(name, username, generate_password_hash(password), email_id, bio, relationship_status, location)
       )
       db.commit()
+      session.clear()
       return redirect(url_for('auth.login'))
 
     flash(error)
@@ -67,7 +64,7 @@ def login():
     password = request.form['password']
 
     db = get_db()
-    error = None
+    error, user = None, None
 
     if username:
       user = db.execute('SELECT * FROM user_detail WHERE username = ?', (username,)).fetchone()
@@ -76,11 +73,14 @@ def login():
     else:
       error = 'No credential provided. Enter your username/email id'
 
-    if user is None:
-      error = 'Incorrect/Non-existent User'
-    elif not check_password_hash(user['password'], password):
-      error = 'Incorrect Password'
-    
+    if username or email_id:
+      if user is not None:
+        if not check_password_hash(user['password'], password):
+          error = 'Incorrect Password'
+      else:
+        error = 'Incorrect/Non-existent User'
+
+
     if error is None:
       session.clear()
       session['user_id'] = user['user_id']

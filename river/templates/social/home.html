@@ -6,7 +6,16 @@
 
 {% block content %}
 <aside>
-  <a href="{{ url_for('post.new') }}">New Post</a>
+  <div>
+    <ul>
+      <li>
+        <a href="{{ url_for('post.new') }}">Create New Post</a>
+      </li>
+      <li>
+        <a href="{{ url_for('user.home') }}">Home</a>
+      </li>        
+    </ul>
+  </div>
 </aside>
   {% if posts %}
   <div class="post-list">
@@ -16,9 +25,8 @@
         <header>
           <!-- TODO: Add a link to the title that directs to the /p/<post_id> page -->
           <h2><a href="{{ url_for('post.index', post_id=post['post_id']) }}">{{ post['title'] }}</a></h2>
-          <div class="about">{{ post['username'] }} on {{  post['created'].strftime('%Y-%m-%d')}}</div>
+          <div class="about"><a href="{{ url_for('user.profile', username=post['username'])}}">@{{ post['username'] }}</a> on {{  post['created'].strftime('%Y-%m-%d')}}</div>
           {% if g.user['user_id'] == post['author_id'] %}
-          <div>You are the author of this post.</div>
           <!-- TODO: -->
           <a class="action" href="{{ url_for('post.edit', post_id=post['post_id']) }}">Edit</a>
           {% endif %}
@@ -37,7 +45,7 @@
       No posts to show :(
     </p>
     <p>
-      Brighten this place by creating <a href="{{ url_for('user.new', username=g.user['username']) }}">your own posts!</a>
+      Brighten this place by creating <a href="{{ url_for('post.new') }}">your own posts!</a>
     </p>
   </div>
   

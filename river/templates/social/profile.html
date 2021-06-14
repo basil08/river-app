@@ -1,57 +1,82 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Profile{% endblock %}</h1>
+<h1>{% block title %}Profile{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
 <!-- Tables. Very modern. Great. -->
-  <table>
-    <tr>
-      <td>Name</td>
-      <td>{{ user['name'] }}</td>
-    </tr>
-    <tr>
-      <td>Username</td>
-      <td>{{ user['username'] }}</td>
-    </tr>
-    <tr>
-      <td>Bio</td>
-      <td>
-        {% if user['bio'] %}
-        {{ user['bio'] }}
-        {% else %}
-        No bio available
-        {% endif %}
-      </td>
-    </tr>
-    <tr>
-      <td>Relationship Status</td>
-      <td>
-        {% if user['relationship_status'] %}
-        {{ user['relationship_status'] }}
-        {% else %}
-        Data not available
-        {% endif %}
-      </td>
-    </tr>
-    <tr>
-      <td>Location</td>
-      <td>
-        {% if user['location'] %}
-        {{ user['location'] }}
-        {% else %}
-        No location data available
-        {% endif %}
-      </td>
-    </tr>
-    <tr>
-      <td>Joined</td>
-      <td>{{ user['joined_date'].strftime('%m, %Y')}}</td>
-    </tr>
-  </table>
+{% if user %}
+<table>
+  <!-- TODO: Add a cute profile picture -->
+  <tr>
+    <td>Name</td>
+    <td>{{ user['name'] }}</td>
+  </tr>
+  <tr>
+    <td>Username</td>
+    <td>{{ user['username'] }}</td>
+  </tr>
+  <tr>
+    <td>Bio</td>
+    <td>
+      {% if user['bio'] %}
+      {{ user['bio'] }}
+      {% else %}
+      No bio available
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>Relationship Status</td>
+    <td>
+      {% if user['relationship_status'] %}
+      {{ user['relationship_status'] }}
+      {% else %}
+      Data not available
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>Location</td>
+    <td>
+      {% if user['location'] %}
+      {{ user['location'] }}
+      {% else %}
+      No location data available
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>Joined</td>
+    <td>{{ user['joined_date'].strftime('%m, %Y')}}</td>
+  </tr>
+  {% if g.user['user_id'] == user['user_id'] %}
+  <tr>
+    <td><em>Only you can review the below information</em></td>
+  </tr>
+  <tr>
+    <td>Verified</td>
+    <!-- Add pretty style. Different color for True and False -->
+    <td>{{ user['verified'].capitalize() }}</td>
+</tr>
+<tr>
+  <td>Premium Account</td>
+  <!-- Add pretty style. Different color for True and False -->
+  <td>{{ user['is_premium'].capitalize() }}</td>
+  </tr>
+  <tr>
+    <td>Email ID</td>
+    <td>{{ user['email_id'] }}</td>
+  </tr>
+  <tr>
 
-  {% if g.user and g.user['user_id'] == session['user_id'] %}
-  <a href="{{ url_for('user.edit') }}">Edit</a>
+  </tr>
   {% endif %}
+</table>
+{% else %}
+<div>
+  <p>{{ error }}</p>
+</div>
+{% endif %}
 {% endblock %}

@@ -11,14 +11,14 @@
     <div class="nav-main-wrapper">
       <div class="nav-left-wrapper">
         <h1>River</h1>
-        <p>where ideas meet</p>
+        <span class="tagline">where ideas meet</span>
       </div>
       <div class="nav-right-wrapper">
         <ul>
           {% if g.user %}
           <li>
-            <span>{{ g.user['name'] }}</span>
-            <span>{{ g.user['username'] }}</span>
+            <span class="name">{{ g.user['name'] }}</span>
+            <span class="username"><a href="{{ url_for('user.profile', username=g.user['username'])}}">@{{ g.user['username'] }}</a></span>
           </li>
           <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
           {% else %}

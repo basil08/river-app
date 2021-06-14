@@ -19,13 +19,15 @@ def home():
   # But if logged in users, show posts from relevant sources, followers etc
   error = None
   db = get_db()
+  pagination_limit = 15
 
 # SELECT p.id, title, body, created, author_id, username'
 #         ' FROM post p JOIN user u ON p.author_id = u.id'
 #         ' ORDER BY created DESC'
     # SELECT p.post_id, title, body, created, author_id, username FROM post p JOIN user_detail u 
       # ON p.author_id = u.user_id LIMIT 15 ORDER BY created DESC'''
-  posts = db.execute('SELECT * FROM post ORDER BY created DESC').fetchall()
+  query = 'SELECT post_id, title, body, created, author_id, username FROM post JOIN user_detail ON post.author_id = user_detail.user_id ORDER BY created DESC;'
+  posts = db.execute(query).fetchall()
 
   return render_template("social/home.html", posts=posts)
 
